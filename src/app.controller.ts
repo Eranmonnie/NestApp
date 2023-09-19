@@ -1,5 +1,7 @@
 import { Controller, Get, Post, Body, Param,Query } from '@nestjs/common';
 import { AppService } from './app.service';
+import {data} from './dto/capp.create.dto';
+
 
 @Controller("")
 export class AppController {
@@ -11,15 +13,13 @@ export class AppController {
     return this.appService.getHello(DOB);
   }
 
-  @Post("names")
-  create(@Body() name:any) {
-    return {
-      "name": name.name
-    };
+  @Post("data")
+  create(@Body() name : data) {
+    return this.appService.createData(name);
   }
 
   @Get(':id')
-  display(@Param('id') id: string) {
+  display(@Param('id') id : string) {
     return this.appService.displayData(id);
   }
 

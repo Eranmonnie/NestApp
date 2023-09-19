@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import {data} from './dto/capp.create.dto';
 
 @Injectable()
 export class AppService {
@@ -26,6 +27,21 @@ export class AppService {
   }
 
   displayData(id: string) {
-   return this.Data.filter(data=>{return data.id === id})
+   const data =  this.Data.filter(data=>{return data.id === id});
+  if (!data){
+    throw new Error("could not get data");
   }
+
+  else{
+    return data;
+  }
+
+  }
+
+  createData(data: data){
+    this.Data.push(data);
+    return data;
+  }
+
+
 }
