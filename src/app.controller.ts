@@ -1,14 +1,14 @@
-import { Controller, Get, Post, Body, Param, } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param,Query } from '@nestjs/common';
 import { AppService } from './app.service';
-import { query } from 'express';
 
-@Controller()
+@Controller("")
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @Get("home")
+  getHello(@Query('DOB') DOB: "2003" | "2005") {
+
+    return this.appService.getHello(DOB);
   }
 
   @Post("names")
@@ -20,7 +20,7 @@ export class AppController {
 
   @Get(':id')
   display(@Param('id') id: string) {
-    return id;
+    return this.appService.displayData(id);
   }
 
 }
