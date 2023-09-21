@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Body, Param, Query, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Put, Body, Param, Query, Delete, NotFoundException } from '@nestjs/common';
 import { AppService } from './app.service';
 import {data} from './dto/capp.create.dto';
 
@@ -20,7 +20,12 @@ export class AppController {
 
   @Get(':id')
   display(@Param('id') id : string) {
-    return this.appService.displayData(id);
+    try{
+      return this.appService.displayData(id);
+    }
+    catch(err){
+      throw new NotFoundException();
+    }
   }
 
   @Put(':id')
