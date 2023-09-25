@@ -1,6 +1,7 @@
-import { Controller, Get, Post, Put, Body, Param, Query, Delete, NotFoundException } from '@nestjs/common';
+import { Controller, Get, Post, Put, Body, Param, Query, Delete, NotFoundException, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
 import {data} from './dto/capp.create.dto';
+import { RoutsGuard } from './routs/routs.guard';
 
 
 @Controller("")
@@ -8,6 +9,7 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get("home")
+  @UseGuards(RoutsGuard)
   getHello(@Query('DOB') DOB: "2003" | "2005") {
 
     return this.appService.getHello(DOB);
