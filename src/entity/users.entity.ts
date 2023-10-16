@@ -1,11 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Prisma } from "@prisma/client";
 
-@Entity()
-export class user{
-    @PrimaryGeneratedColumn()
-    id:number
-    
-    @Column()
-    name:string
-
-};
+export class user implements Prisma.UserCreateInput{
+    id :number
+    name: string
+}
