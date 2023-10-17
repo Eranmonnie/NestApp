@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import {data} from './dto/capp.create.dto';
 import { PrismaService } from './prisma.services';
 import {User} from './entity/users.entity'
-import { promises } from 'fs';
 
 
 @Injectable()
