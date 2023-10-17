@@ -1,64 +1,57 @@
 import { Injectable } from '@nestjs/common';
 import {data} from './dto/capp.create.dto';
+import { PrismaService } from './prisma.services';
+import {User} from './entity/users.entity'
+import { promises } from 'fs';
+
 
 @Injectable()
 export class AppService {
-  private Data = [
-    {
-      "id" : "0",
-      "name": "Ajala feranmi",
-      "DOB" : "2003"
-    },
+  constructor(private prisma:PrismaService){}
+  // private Data = [
+  //   {
+  //     "id" : "0",
+  //     "name": "Ajala feranmi",
+  //     "DOB" : "2003"
+  //   },
 
-    {
-      "id" : "1",
-      "name" : "Ajala gbeminiyi",
-      "DOB" : "2005"
-    }
-  ];
+  //   {
+  //     "id" : "1",
+  //     "name" : "Ajala gbeminiyi",
+  //     "DOB" : "2005"
+  //   }
+  // ];
 
-  getHello(DOB: "2003" | "2005") {
-    if (DOB){
-     return this.Data.filter(data =>{ return data.DOB === DOB});
-    }
-    else{
-      return this.Data;
-    }
+  async getHello():Promise<User[]>{
+      return this.prisma.user.findMany();
   }
 
-  displayData(id: string) {
-   const data = this.Data.filter(data=>{return data.id === id});
-    if (!data){
-      throw new Error("could not get data");
-    }
-    else{
-      return data;
-    }
+  async findOneOrManny(id:number): Promise<User | null>{
+    return this.prisma.user.findUnique({where:{id:Number(id)}})  
   }
 
-  createData(data: data){
-    this.Data.push(data);
-    return data;
+  async displayData(id: number): Promise<User | null> {
+    return this.prisma.user.findUniqueOrThrow({where:{id:Number(id)}})
   }
 
-  deleteData(id: string){
-    const data = this.displayData(id);
-    this.Data = this.Data.filter(data=>data.id != id);
-    return data;
+  async createData(data: data){
+    return this.prisma.user.create({
+      data,
+    })
   }
 
-  updataData(id: string, updateData:data){
-    this.Data = this.Data.map(data=>{
-      if(data.id === id){
-        return{...data, ...updateData}
-      }
-      else{
-        return data;
-      } 
-    });
-    return this.displayData(id);
+  async deleteData(id: number): Promise<User>{
+    return this.prisma.user.delete({
+      where:{id:Number(id)}
+    })
+  
   }
 
-
+  async updataData(id: number, updateData:data){
+    return this.prisma.user.update({
+      where:{id: Number(id)},
+      data :{...updateData}
+    })
+  }
   
 }

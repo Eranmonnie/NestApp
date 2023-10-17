@@ -2,6 +2,7 @@ import { Controller, Get, Post, Put, Body, Param, Query, Delete, NotFoundExcepti
 import { AppService } from './app.service';
 import {data} from './dto/capp.create.dto';
 import { RoutsGuard } from './routs/routs.guard';
+import { User } from '@prisma/client';
 
 
 @Controller("")
@@ -10,18 +11,18 @@ export class AppController {
 
   @Get("home")
   @UseGuards(RoutsGuard)
-  getHello(@Query('DOB') DOB: "2003" | "2005") {
+  async getHello(): Promise<User[]> {
 
-    return this.appService.getHello(DOB);
+    return this.appService.getHello();
   }
 
   @Post("data")
-  create(@Body() data : data) {
+  async create(@Body() data : data):Promise<User> {
     return this.appService.createData(data);
   }
 
   @Get(':id')
-  display(@Param('id') id : string) {
+  async display(@Param('id') id : number):Promise<User> {
     try{
       return this.appService.displayData(id);
     }
@@ -31,12 +32,12 @@ export class AppController {
   }
 
   @Put(':id')
-  update(@Param('id') id :string, @Body() data: data ){
+  async update(@Param('id') id :number, @Body() data: data ): Promise<User>{
     return this.appService.updataData(id, data);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string){
+  async remove(@Param('id') id: number): Promise<User>{
     return this.appService.deleteData(id);
   }
 

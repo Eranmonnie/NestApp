@@ -1,5 +1,5 @@
 export class data {
-    "id" : string
+    "id" : number
     "name" : string
     "DOB" : string
 }
